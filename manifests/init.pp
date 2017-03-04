@@ -45,6 +45,7 @@ class stf_iptables {
     chain       => 'INPUT',
     state       => ['NEW'],
     dport       => 22,
+    proto       => tcp,
     action      => accept,
     destination => '10.0.2.15/32',
   }
@@ -52,7 +53,22 @@ class stf_iptables {
     chain       => 'INPUT',
     state       => ['NEW'],
     dport       => 22,
+    proto       => tcp,
     action      => accept,
     destination => '192.168.10.0/24',
+  }
+  firewall { '103 allow ntp':
+    chain       => 'INPUT',
+    dport       => 123,
+    proto       => udp,
+    action      => accept,
+    destination => '10.100.100.10/32',
+  }
+  firewall { '104 allow tomcat':
+    chain       => 'INPUT',
+    dport       => 8080,
+    proto       => tcp,
+    action      => accept,
+    source      => '! 10.100.100.11/32',
   }
 }
