@@ -41,4 +41,18 @@ class stf_iptables {
     destination => '192.168.10.12',
     source      => '192.168.10.10',
   }
+  firewall { '101 allow ssh':
+    chain       => 'INPUT',
+    state       => ['NEW'],
+    dport       => 22,
+    action      => accept,
+    destination => '10.0.2.15/32',
+  }
+  firewall { '102 allow ssh to public port':
+    chain       => 'INPUT',
+    state       => ['NEW'],
+    dport       => 22,
+    action      => accept,
+    destination => '192.168.10.0/24',
+  }
 }
