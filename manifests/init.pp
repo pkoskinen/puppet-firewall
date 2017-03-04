@@ -1,4 +1,4 @@
-# == Class: stf
+# == Class: stf & stf_iptables
 #
 # Base class of this module.
 #
@@ -27,5 +27,18 @@ class stf {
     sources    => [ $http_sources, $ssh_sources],
     services   => [ 'httpd', 'sshd' ],
     interfaces => 'eth1',
+  }
+}
+
+class stf_iptables {
+
+  firewall { '100 allow http and https':
+    chain       => 'INPUT',
+    state       => ['NEW'],
+    dport       => [80, 443],
+    proto       => tcp,
+    action      => accept,
+    destination => '192.168.10.12',
+    source      => '192.168.10.10',
   }
 }
